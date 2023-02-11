@@ -9,5 +9,12 @@ int main(){
   int *encoded_msg = encodeHammer(a, size, count);
   printArray(encoded_msg, count);
 
+    printf("\n");
+  if (parityChecker(encoded_msg, count)){
+    printf("\n!!!!No Loss!!!!\n");
+  }
+
+
+
 }
 

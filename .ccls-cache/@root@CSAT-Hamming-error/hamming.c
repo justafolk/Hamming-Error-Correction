@@ -49,6 +49,27 @@ int redundantBitValues(int *n, int redCount, int size,  int pBit){
 
 }
 
+int redundantBitValuesChecker(int *n, int redCount, int size,  int pBit){
+  int res = 0;
+  int i = 0;
+  int s = 0;
+  int ptrack = 1;
+  while (i < redCount){
+    if (((i+1)^pBit) == i+1 - pBit && pBit != i+1 && i+1 != ptrack){
+      res ^= n[i];
+      i++;
+      continue;
+    }
+    if (i+1 == ptrack){
+      ptrack<<=1;
+      i++;
+      continue;
+    }
+    i++;
+  }
+  return res;
+
+}
 int *encodeHammer(int a[], int size, int redCount){
   int *n = (int *) malloc(sizeof(int) * redCount);
   int i = 0;
@@ -67,3 +88,29 @@ int *encodeHammer(int a[], int size, int redCount){
   }
   return n;
 } 
+
+int parityChecker(int n[] ,int redCount){
+  int i = 0;
+  int s = 1;
+  int ptrack = 1;
+  int size = 1;
+  int r = 1;
+  while(r<<1 <= redCount ){
+    size++;
+    r <<= 1;
+  }
+  while (s < size+1){
+    if (i+1 == ptrack){
+      if (n[i] != redundantBitValuesChecker(n, redCount, redCount, ptrack)){
+        return 0;
+      }
+      ptrack<<=1;
+      i++;
+      continue;
+    }
+    s++;
+    i++;
+  }
+  return 1;
+} 
+

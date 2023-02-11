@@ -6,5 +6,6 @@ int redundantBitPosition(int *a);
 int redundantBitValues(int *a, int redCount, int size, int pBit);
 
 //Decoding
-int paritChecker(int *a);
+int parityChecker(int n[] ,int redCount);
 int corrector(int *a);
+int redundantBitValuesChecker(int *n, int redCount, int size,  int pBit);
