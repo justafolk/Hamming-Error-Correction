@@ -7,4 +7,4 @@ int redundantBitValues(int *a, int redCount, int size, int pBit);
 
 //Decoding
 int parityChecker(int n[] ,int redCount);
-int decoder(int *a);
+int *decoder(int *a, int redCount);
