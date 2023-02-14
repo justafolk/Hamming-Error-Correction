@@ -57,13 +57,27 @@ int *encodeHammer(int a[], int size, int redCount){
   }
   return n;
 } 
-
-int *encodeHammer_diff(int a[], int size, int redCount){
-  int *n = (int *) malloc(sizeof(int) * redCount - size);
+int *encodeParity(int a[], int size, int redCount){
+  int *n = (int *) malloc(sizeof(int) * redCount);
   int i = 0;
   int s = 0;
-  while(i < red){
+  int ptrack = 1;
+  while (s < size){
+    if (i+1 == ptrack){
+      ptrack<<=1;
+      i++;
+      continue;
+    }
+    n[i] = a[s];
+    s++;
+    i++;
+  }
+  n[++i] = 0;
+  i = 0;
+  ptrack = 1;
+  while(ptrack <= i+size){
     n[i] = redundantBitValues(n, redCount, size, ptrack);
+    ptrack<<=1;
     i++;
   }
   return n;
@@ -117,6 +131,52 @@ int parityChecker(int n[] ,int redCount){
   }
 } 
 
+int parityChecker_arrays(int n[] ,int redCount, int p[], int size){
+  int i = 0;
+  int s = 1;
+  int ptrack = 1;
+  int size = 1;
+  int red = 0;
+  int t = 0;
+  int res = 1;
+  int p = 1;
+  while(ptrack<<1 <= redCount ){
+    size++;
+    ptrack <<= 1;
+  }
+  ptrack = 1;
+  while (s < size+1){
+    if (i+1 == ptrack){
+      red = redundantBitValues(n, redCount, redCount, ptrack);
+      t = t + (res * (n[i] ^ red));
+      res *= 10;
+      ptrack<<=1;
+      i++;
+      p ^= n[i];
+      continue;
+    }
+    p ^= n[i];
+    s++;
+    i++;
+  }
+  res = red = i = 0;
+  while (t!=0){
+    red = t%10;
+    t /= 10;
+    res += red*(1<<i);
+    i++;
+  }
+  if (res > 0 && p > 0){
+    n[res-1] ^= 1;
+    return 3;
+  } else if(p > 0 && res == 0){
+    return 2;
+  } else if(res > 0){
+    return 1;
+  } else{
+    return 0;
+  }
+} 
 int *decoder(int *a, int redCount){
 
   int i = 0;
