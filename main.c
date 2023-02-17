@@ -5,24 +5,32 @@
 int main(){
   int a[4] = {1, 0, 1, 1};
   int size = 4;
+  
+  // Length of the Encoded Message
   int count = redundantBitCount(size );
-  int *encoded_msg = encodeHammer(a, size, count);
-  printf("%d", redundantBitCount(8));
-  printArray(encoded_msg, count);
-  printf("\n");
-  encoded_msg[6] = 0;
-  printArray(encoded_msg, count);
-    printf("\n");
 
-  if (parityChecker(encoded_msg, count) == 2){
-    printf("Multiple bits error!!!");
+  // Encoding data bits {a[]} with Hamming code
+  int *encoded_msg = encodeHammer(a, size, count);
+
+  printf("\nEncoded Message: ");
+  printArray(encoded_msg, count);
+
+  // Adding an Error in the message
+  encoded_msg[1] = 0;
+  printf("\nEncoded Message with error: ");
+  printArray(encoded_msg, count);
+
+  // Checking for Error Bits and trying to correct Single bit errors.
+  if (parityChecker(encoded_msg, count) != 3){
+    
+    // Decoding Hamming Encoded message
+    int *d = decoder(encoded_msg, count);
+    printf("\n\nDecoded Message");
+    printArray(d, size);
+
   }
 
-  printArray(encoded_msg, count);
 
-  int *d = decoder(encoded_msg, count);
-  printf("\n");
-  printArray(d, size);
 
 }
 
