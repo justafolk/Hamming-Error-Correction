@@ -10,7 +10,7 @@ void printArray(int arr[], int size){
   }
 }
 
-int redundantBitCount(int size){
+int hammingLength(int size){
   /* 
    Returns The total length of the encoded message.
    Formula : No. of Data Bits + No. of Redundant Bits + 1 (Parit Bit)

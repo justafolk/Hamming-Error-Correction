@@ -7,26 +7,26 @@ int main(){
   int size = 4;
   
   // Length of the Encoded Message
-  int count = redundantBitCount(size );
+  int count = hammingLength(size );
+  int parityCount = redundantBitCount(size);
 
   // Encoding data bits {a[]} with Hamming code
-  int *encoded_msg = encodeHammer(a, size, count);
+  int *encoded_msg = encodeHammerParity(a, size, count);
+
 
   printf("\nEncoded Message: ");
-  printArray(encoded_msg, count);
+  printArray(encoded_msg, parityCount);
 
   // Adding an Error in the message
-  encoded_msg[1] = 0;
+  encoded_msg[2] ^= 1;
   printf("\nEncoded Message with error: ");
-  printArray(encoded_msg, count);
+  printArray(encoded_msg, parityCount);
 
   // Checking for Error Bits and trying to correct Single bit errors.
-  if (parityChecker(encoded_msg, count) != 3){
+  if (parityCheckerSeparate(a, size, encoded_msg, parityCount ) != 3){
     
-    // Decoding Hamming Encoded message
-    int *d = decoder(encoded_msg, count);
     printf("\n\nDecoded Message");
-    printArray(d, size);
+    printArray(a, size);
 
   }
 
