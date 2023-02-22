@@ -3,20 +3,20 @@
 #include <math.h>
 #include "hamming.h"
 
-void printArray(int arr[], int size){
+void printArray(uint32_t arr[], uint32_t size){
   printf("\n");
-  for(int i = 0; i < size; i++){
+  for(uint32_t i = 0; i < size; i++){
     printf("%d\t", arr[i]);
   }
 }
 
-int hammingLength(int size){
+uint32_t hammingLength(uint32_t size){
   /* 
    Returns The total length of the encoded message.
    Formula : No. of Data Bits + No. of Redundant Bits + 1 (Parit Bit)
     */
-  int i = 0;
-  int p = 1;
+  uint32_t i = 0;
+  uint32_t p = 1;
   while(p <= i+size){
     p<<=1;
     i++;
@@ -25,12 +25,12 @@ int hammingLength(int size){
 }
 
 
-int redundantBitValues(int *n, int redCount,  int pBit  ){
+uint32_t redundantBitValues(uint32_t *n, uint32_t redCount,  uint32_t pBit  ){
   /*
     Returns The Redundant Bit value for given Bit Location (Power of 2)
     */
-  int res = 0;
-  int i = 0;
+  uint32_t res = 0;
+  uint32_t i = 0;
   while (i < redCount){
     // X-ORs every bit whose location has binary up for pBit.
     if ((i+1) & pBit && i+1 != pBit){
@@ -41,16 +41,16 @@ int redundantBitValues(int *n, int redCount,  int pBit  ){
   return res;
 }
 
-int *encodeHammer(int a[], int size, int redCount){
+uint32_t *encodeHammer(uint32_t a[], uint32_t size, uint32_t redCount){
   /*
     Returns An Encoded Hamming code array of given data bits.
     */
-  int *n = (int *) malloc(sizeof(int) * redCount);
+  uint32_t *n = (uint32_t *) malloc(sizeof(int) * redCount);
 
-  int i = 2;
-  int s = 0;
-  int ptrack = 4;
-  int pBits = 0;
+  uint32_t i = 2;
+  uint32_t s = 0;
+  uint32_t ptrack = 4;
+  uint32_t pBits = 0;
   
   // 1. Assigning data bits to non-2-power locations in the resultant array.
   while (s < size){
@@ -85,12 +85,12 @@ int *encodeHammer(int a[], int size, int redCount){
 } 
 
 
-int parityChecker(int n[] ,int redCount){
-  int ptrack = 1;
-  int pos = 0;
+uint32_t parityChecker(uint32_t n[] ,uint32_t redCount){
+  uint32_t ptrack = 1;
+  uint32_t pos = 0;
   
   // XOR of Parity Bit and Second Last Data Bit 
-  int parity = n[redCount - 2] ^ n[redCount - 1];
+  uint32_t parity = n[redCount - 2] ^ n[redCount - 1];
 
   // XOR of All Bits in the Encoded Array
   parity ^= redundantBitValues(n, redCount , redCount - 1);
@@ -123,15 +123,15 @@ int parityChecker(int n[] ,int redCount){
 
 } 
 
-int *decoder(int *a, int redCount){
+uint32_t *decoder(uint32_t *a, uint32_t redCount){
   /*
     Returns the decoded message of hammer encoded message.
     */
 
-  int i = 2;
-  int s = 0;
-  int ptrack = 1;
-  int size = 1;
+  uint32_t i = 2;
+  uint32_t s = 0;
+  uint32_t ptrack = 1;
+  uint32_t size = 1;
 
   // Calculating the length of data bits
   while(ptrack<<1 <= redCount ){
@@ -140,7 +140,7 @@ int *decoder(int *a, int redCount){
   } 
 
   // Creating an Array for decoded msg
-  int *n = (int *) malloc(sizeof(int) * size );
+  uint32_t *n = (uint32_t *) malloc(sizeof(int) * size );
   ptrack = 4;
 
   // Getting all the data bits which are located in non-2-power locations.
