@@ -1,1 +1,1 @@
-# CSAT-Hamming-error
+# Hamming-error-correction
